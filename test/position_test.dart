@@ -946,7 +946,9 @@ void main() {
       expect(pos.legalMoves.values,
           everyElement((SquareSet squareSet) => squareSet.isEmpty));
       expect(pos.legalDrops, const SquareSet.fromSquare(Square.g8));
+      expect(pos.hasSomeLegalMoves, true);
       expect(pos.isGameOver, false);
+      expect(pos.isCheckmate, false);
     });
 
     test('en passant capture', () {
@@ -1019,47 +1021,9 @@ void main() {
     });
 
     test('castle checkmates', () {
-      Position position = Crazyhouse.initial;
-      final moves = [
-        'd4',
-        'f5',
-        'Nc3',
-        'Nf6',
-        'Nf3',
-        'e6',
-        'Bg5',
-        'Be7',
-        'Bxf6',
-        'Bxf6',
-        'e4',
-        'fxe4',
-        'Nxe4',
-        'b6',
-        'Ne5',
-        'O-O',
-        'Bd3',
-        'Bb7',
-        'Qh5',
-        'Qe7',
-        'Qxh7+',
-        'Kxh7',
-        'Nxf6+',
-        'Kh6',
-        'Neg4+',
-        'Kg5',
-        'h4+',
-        'Kf4',
-        'g3+',
-        'Kf3',
-        'Be2+',
-        'Kg2',
-        'Rh2+',
-        'Kg1',
-        'O-O-O#',
-      ];
-      for (final move in moves) {
-        position = position.play(position.parseSan(move)!);
-      }
+      Position position = Crazyhouse.fromSetup(Setup.parseFen(
+          'rnbq1r2/pbppq1p1/1p2pN2/7p/2PP2NP/1P4P1/P3BP1R/R3K1k1[PPNB] w Q - 1 21'));
+      position = position.play(position.parseSan('O-O-O#')!);
       expect(position.isCheckmate, equals(true));
     });
   });

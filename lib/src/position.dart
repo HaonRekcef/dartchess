@@ -1508,6 +1508,10 @@ abstract class Crazyhouse extends Position {
   Outcome? get variantOutcome => null;
 
   @override
+  bool get hasSomeLegalMoves =>
+      legalDrops.isNotEmpty || super.hasSomeLegalMoves;
+
+  @override
   void validate({bool? ignoreImpossibleCheck}) {
     super.validate(ignoreImpossibleCheck: ignoreImpossibleCheck);
     if (pockets == null) {

@@ -1,3 +1,7 @@
+## 0.12.3
+
+- Fix `Crazyhouse.isGameOver` and `Crazyhouse.isCheckmate` in positions where all legal moves are drop moves.
+
 ## 0.12.2
 
 - Add `SquareSet explosionSquares(Move move)` method to Atomic class.
