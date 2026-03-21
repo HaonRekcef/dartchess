@@ -940,6 +940,17 @@ void main() {
       }
     });
 
+    test('game is not over when all valid moves are drop moves', () {
+      final pos = Crazyhouse.fromSetup(Setup.parseFen(
+          'r1bQqk1R/ppp2ppp/3p4/6n1/2B5/5P2/PPP3PP/3n1K1R[PPNBBpnr] b - - 3 23'));
+      expect(pos.legalMoves.values,
+          everyElement((SquareSet squareSet) => squareSet.isEmpty));
+      expect(pos.legalDrops, const SquareSet.fromSquare(Square.g8));
+      expect(pos.hasSomeLegalMoves, true);
+      expect(pos.isGameOver, false);
+      expect(pos.isCheckmate, false);
+    });
+
     test('en passant capture', () {
       final pos = Crazyhouse.fromSetup(Setup.parseFen(
               'r1bqkbnr/ppppp1pp/2n5/4Pp2/8/8/PPPP1PPP/RNBQKBNR w KQkq f6 0 3'))
@@ -1010,47 +1021,9 @@ void main() {
     });
 
     test('castle checkmates', () {
-      Position position = Crazyhouse.initial;
-      final moves = [
-        'd4',
-        'f5',
-        'Nc3',
-        'Nf6',
-        'Nf3',
-        'e6',
-        'Bg5',
-        'Be7',
-        'Bxf6',
-        'Bxf6',
-        'e4',
-        'fxe4',
-        'Nxe4',
-        'b6',
-        'Ne5',
-        'O-O',
-        'Bd3',
-        'Bb7',
-        'Qh5',
-        'Qe7',
-        'Qxh7+',
-        'Kxh7',
-        'Nxf6+',
-        'Kh6',
-        'Neg4+',
-        'Kg5',
-        'h4+',
-        'Kf4',
-        'g3+',
-        'Kf3',
-        'Be2+',
-        'Kg2',
-        'Rh2+',
-        'Kg1',
-        'O-O-O#',
-      ];
-      for (final move in moves) {
-        position = position.play(position.parseSan(move)!);
-      }
+      Position position = Crazyhouse.fromSetup(Setup.parseFen(
+          'rnbq1r2/pbppq1p1/1p2pN2/7p/2PP2NP/1P4P1/P3BP1R/R3K1k1[PPNB] w Q - 1 21'));
+      position = position.play(position.parseSan('O-O-O#')!);
       expect(position.isCheckmate, equals(true));
     });
   });
