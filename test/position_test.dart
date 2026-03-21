@@ -940,6 +940,15 @@ void main() {
       }
     });
 
+    test('game is not over when all valid moves are drop moves', () {
+      final pos = Crazyhouse.fromSetup(Setup.parseFen(
+          'r1bQqk1R/ppp2ppp/3p4/6n1/2B5/5P2/PPP3PP/3n1K1R[PPNBBpnr] b - - 3 23'));
+      expect(pos.legalMoves.values,
+          everyElement((SquareSet squareSet) => squareSet.isEmpty));
+      expect(pos.legalDrops, const SquareSet.fromSquare(Square.g8));
+      expect(pos.isGameOver, false);
+    });
+
     test('en passant capture', () {
       final pos = Crazyhouse.fromSetup(Setup.parseFen(
               'r1bqkbnr/ppppp1pp/2n5/4Pp2/8/8/PPPP1PPP/RNBQKBNR w KQkq f6 0 3'))
